@@ -1,3 +1,4 @@
+using KanKikuchi.AudioManager;
 using sabanogames.Common.UI;
 using UniRx;
 using UnityEngine;
@@ -21,6 +22,7 @@ public class StageSelectItemView : MonoBehaviour
         stageNameText.text = $"Stage{_stageNo}";
         stageButton.OnClickOnce.Subscribe(_ =>
         {
+            SEManager.Instance.Play(SEPath.DECISION);
             SceneManager.LoadScene($"Stage{_stageNo}_{_createdByName}");
         });
     }

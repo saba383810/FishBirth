@@ -1144,9 +1144,11 @@ GameObject:
   - component: {fileID: 2627552327946929012}
   - component: {fileID: 1237794308}
   - component: {fileID: 1237794309}
+  - component: {fileID: 1237794310}
+  - component: {fileID: 1237794316}
   m_Layer: 0
   m_Name: sabato
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1196,14 +1198,14 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8781188677696652212}
   serializedVersion: 2
-  m_Mass: 70
+  m_Mass: 30
   m_Drag: 0
-  m_AngularDrag: 1000
+  m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
-  m_CollisionDetection: 0
+  m_Constraints: 112
+  m_CollisionDetection: 2
 --- !u!136 &1237794309
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1215,9 +1217,40 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.00768589
-  m_Height: 0.036632486
+  m_Height: 0.03576685
   m_Direction: 1
-  m_Center: {x: 0.00028059707, y: 0.017393008, z: -0.0023881437}
+  m_Center: {x: 0.00028059707, y: 0.017825825, z: -0.0023881437}
+--- !u!114 &1237794310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8781188677696652212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d03be33cacd041c9b399e8590d0881e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 1.5
+  rb: {fileID: 1237794308}
+  jumpPower: 4000
+  gravityPower: -1000
+  animator: {fileID: 2627552327946929012}
+--- !u!114 &1237794316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8781188677696652212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa5439ca86cb34f7c98bd3a55a475e84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMove: {fileID: 1237794310}
+  gameController: {fileID: 0}
 --- !u!1 &8798175353411166447
 GameObject:
   m_ObjectHideFlags: 0

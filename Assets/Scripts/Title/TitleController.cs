@@ -1,4 +1,5 @@
 using DG.Tweening;
+using KanKikuchi.AudioManager;
 using sabanogames.Common.UI;
 using UniRx;
 using UnityEngine;
@@ -13,6 +14,7 @@ public class TitleController : MonoBehaviour
 
     private void Start()
     {
+        BGMManager.Instance.Play(BGMPath.TITLE);
         ShowTitle();
     }
 
@@ -36,6 +38,7 @@ public class TitleController : MonoBehaviour
 
     private void ShowStageSelectWindow()
     {
+        SEManager.Instance.Play(SEPath.SHOW_WINDOW);
         stageSelectWindow.Show();
     }
 }

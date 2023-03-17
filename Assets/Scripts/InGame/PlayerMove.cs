@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
@@ -13,17 +14,26 @@ public class PlayerMove : MonoBehaviour
 
     private float _inputVertical;
     private float _inputHorizontal;
+    private bool _isAnimationTransition;
+    
+    private int _jumpCnt;
+    private bool _isPlaying = false;
+
+    private const int JumpCntMax = 10;
     
     [SerializeField] private Animator animator;
     private static readonly int IsRun = Animator.StringToHash("IsRun");
     private static readonly int IsJump = Animator.StringToHash("IsJump");
-
+    private static readonly int AnimationNo = Animator.StringToHash("AnimationNo");
+    
+    
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
     }
     void Update() 
     {
+        if(!_isPlaying) return;
         _inputHorizontal = Input.GetAxisRaw("Horizontal");
         _inputVertical = Input.GetAxisRaw("Vertical");
         
@@ -37,14 +47,15 @@ public class PlayerMove : MonoBehaviour
         {
             animator.SetBool(IsRun,false);
         }
-
-        Gravity();
         
         Jump();
+        if(_jumpNow) Gravity();
+        else PlayerAction();
     }
 
     void FixedUpdate() 
     {
+        if(!_isPlaying) return;
         // カメラの方向から、X-Z平面の単位ベクトルを取得
         var cameraForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
         var moveForward = cameraForward * _inputVertical + Camera.main.transform.right * _inputHorizontal;
@@ -67,6 +78,7 @@ public class PlayerMove : MonoBehaviour
         if (col.gameObject.CompareTag("Ground"))
         {
             _jumpNow = false;
+            _jumpCnt = 0;
             animator.SetBool(IsJump,false);
         }
     }
@@ -81,19 +93,67 @@ public class PlayerMove : MonoBehaviour
     }
     
 
+    /// <summary>
+    ///    ジャンプのチェック
+    /// </summary>
     void Jump() 
     {
-        if (_jumpNow) return;
-        if (Input.GetKeyDown(KeyCode.Space))
+        if(_jumpCnt >= JumpCntMax) return;
+        
+        if (Input.GetKey(KeyCode.Space))
         {
-            rb.AddForce(transform.up * jumpPower,ForceMode.Impulse);
+            rb.AddForce(transform.up * jumpPower, ForceMode.Force);
             animator.SetBool(IsJump,true);
+            _jumpCnt++;
             _jumpNow = true;
         }
     }
+    
+    /// <summary>
+    ///    重力をかける
+    /// </summary>
     void Gravity() 
     {
         rb.AddForce(new Vector3(0, gravityPower, 0));
     }
     
+    /// <summary>
+    ///    プレイヤーの攻撃アニメーションのチェック
+    /// </summary>
+    private void PlayerAction()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            SetAnimationNo(1);
+        }
+        else if (Input.GetKeyDown(KeyCode.X))
+        {
+            SetAnimationNo(2);
+        }
+        else if (Input.GetKeyDown(KeyCode.C))
+        {
+            SetAnimationNo(3);
+        }
+        else
+        {
+            SetAnimationNo(0);
+        }
+    }
+
+    public async void SetAnimationNo(int val)
+    {
+        var currentNo = animator.GetInteger(AnimationNo);
+        
+        if(currentNo == val) return;
+        if(_isAnimationTransition) return;
+        _isAnimationTransition = true;
+        animator.SetInteger(AnimationNo,val);
+        await UniTask.Delay(TimeSpan.FromSeconds(0.1f));
+        _isAnimationTransition = false;
+    }
+
+    public void SetPlaying(bool val)
+    {
+        _isPlaying = val;
+    }
 }
