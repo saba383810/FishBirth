@@ -1,3 +1,5 @@
+using DG.Tweening;
+using KanKikuchi.AudioManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,8 +14,12 @@ namespace InGame
         [SerializeField] private Text  hpText;
         [SerializeField] private Image hpImage;
 
+        [Header("TimerView")] 
+        [SerializeField] private Text timeText;
+        
         private const string HpSpritePath = "Image/HP/";
         private int MaxHp { get; set; }
+        private int _currentScore;
         
         public void Init(PlayerData playerData)
         {
@@ -27,8 +33,11 @@ namespace InGame
         /// </summary>
         public void SetScoreView(int score)
         {
-            // ScoreTextの変更
-            scoreText.text = score.ToString("000000");
+            DOTween.To(() => _currentScore, (val) =>
+            {
+                _currentScore = val;
+                scoreText.text = val.ToString("000000");
+            }, score, 0.5f);
         }
 
         /// <summary>
@@ -52,6 +61,20 @@ namespace InGame
         public void SetMaxHP(int maxHp)
         {
             MaxHp = maxHp;
+        }
+
+        public void SetTimer(int val)
+        {
+            if (val <= 5)
+            {
+                SEManager.Instance.Play(SEPath.COUUNT_DOWN);
+                timeText.color = Color.red;
+                DOTween.Sequence()
+                    .OnStart(() => timeText.transform.localScale = Vector3.one)
+                    .Append(timeText.transform.DOScale(new Vector3(1.3f, 1.3f, 1.3f), 0.3f).SetEase(Ease.OutQuint))
+                    .Append(timeText.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutQuint));
+            }
+            timeText.text = val.ToString("00");
         }
     }
 }

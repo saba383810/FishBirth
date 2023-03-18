@@ -7,7 +7,7 @@ public class PlayerMove : MonoBehaviour
     private Vector3 _movingDirection;
     public float moveSpeed;
     public Rigidbody rb;
-    private bool _jumpNow;
+    private bool _jumpNow = true;
     public float jumpPower; //調整必要 例850
     private Vector3 _latestPos;
     public float gravityPower; //調整必要　例 - 1000
@@ -19,7 +19,7 @@ public class PlayerMove : MonoBehaviour
     private int _jumpCnt;
     private bool _isPlaying = false;
 
-    private const int JumpCntMax = 10;
+    private const int JumpCntMax = 15;
     
     [SerializeField] private Animator animator;
     private static readonly int IsRun = Animator.StringToHash("IsRun");
@@ -106,6 +106,10 @@ public class PlayerMove : MonoBehaviour
             animator.SetBool(IsJump,true);
             _jumpCnt++;
             _jumpNow = true;
+        }
+        else
+        {
+            _jumpCnt = JumpCntMax;
         }
     }
     

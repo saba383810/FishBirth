@@ -10,7 +10,8 @@ public class StageSelectItemView : MonoBehaviour
     [SerializeField] private Text stageNameText;
     [SerializeField] private Text createdByNameText;
     [SerializeField] private CommonButton stageButton;
- 
+    public CommonButton StageSelectItemButton => stageButton;
+    
     private int _stageNo;
     private string _createdByName;
 
