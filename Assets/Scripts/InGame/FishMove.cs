@@ -23,23 +23,23 @@ namespace InGame
                 particle.Play();
             }
 
-            var pos = transform.position;
+            var pos = transform.localPosition;
         
             DOTween.Sequence()
                 .AppendCallback(()=>SEManager.Instance.Play(SEPath.FINISH2))
                 .AppendInterval(1f)
                 .AppendCallback(()=>SEManager.Instance.Play(SEPath.FINISH1))
-                .Append(transform.DORotate(new Vector3(0, 0, -50), 0.5f))
-                .Join(transform.DOMove(new Vector3(pos.x - 1, pos.y + 1, pos.z), 0.5f))
+                .Append(transform.DOLocalRotate(new Vector3(0, 0, -50), 0.5f))
+                .Join(transform.DOLocalMove(new Vector3(pos.x - 1, pos.y + 1, pos.z), 0.5f))
                 .AppendCallback(()=>SEManager.Instance.Play(SEPath.FINISH2))
-                .Append(transform.DORotate(new Vector3(0, 0, -90), 0.2f, RotateMode.FastBeyond360).SetEase(Ease.Linear).SetLoops(3, LoopType.Incremental))
-                .Join(transform.DOMove(new Vector3(pos.x - 1.5f, pos.y + 1.5f, pos.z), 0.6f))
+                .Append(transform.DOLocalRotate(new Vector3(0, 0, -90), 0.2f, RotateMode.FastBeyond360).SetEase(Ease.Linear).SetLoops(3, LoopType.Incremental))
+                .Join(transform.DOLocalMove(new Vector3(pos.x - 1.5f, pos.y + 1.5f, pos.z), 0.6f))
                 .AppendCallback(()=>SEManager.Instance.Play(SEPath.FINISH2))
-                .Append(transform.DORotate(new Vector3(0, 0, 50), 0.2f))
-                .Join(transform.DOMove(new Vector3(pos.x - 1.7f, pos.y + 1.7f, pos.z), 0.2f))
+                .Append(transform.DOLocalRotate(new Vector3(0, 0, 50), 0.2f))
+                .Join(transform.DOLocalMove(new Vector3(pos.x - 1.7f, pos.y + 1.7f, pos.z), 0.2f))
                 .AppendCallback(()=>SEManager.Instance.Play(SEPath.FINISH3))
-                .Append(transform.DOMove(new Vector3(pos.x - 6, pos.y - 4, pos.z), 6f))
-                .Join(transform.DORotate(new Vector3(0, 0, 90), 2f));
+                .Append(transform.DOLocalMove(new Vector3(pos.x - 6, pos.y - 4, pos.z), 6f))
+                .Join(transform.DOLocalRotate(new Vector3(0, 0, 90), 2f));
         }
     }
 }

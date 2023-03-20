@@ -17,6 +17,7 @@ namespace InGame
         {
             if (col.gameObject.CompareTag("Enemy")) PlayerDamage(1);
             if (col.gameObject.CompareTag("Score100")) ScoreUp(100,col.gameObject) ;
+            if (col.gameObject.CompareTag("Death"))PlayerDamage(3);
         }
 
         public void Finish(Vector3 worldPos)

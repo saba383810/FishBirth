@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - ClearPoint
   - Score100
+  - Death
   layers:
   - Default
   - TransparentFX

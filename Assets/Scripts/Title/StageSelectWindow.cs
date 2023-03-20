@@ -13,7 +13,7 @@ public class StageSelectWindow : MonoBehaviour
     [SerializeField] private Transform stageSelectItemViewParent;
     [SerializeField] private GameObject stageSelectItemViewPrefab;
 
-    private readonly string[] _createdNameArray = {"rin", "aoto", "gen", "syu", "saba"};
+    private readonly string[] _createdNameArray = {"rin", "aoto", "gen", "shu", "saba"};
     private List<CommonButton> _itemViewButtonList;
     private const float AnimSpeed = 0.2f;
 
